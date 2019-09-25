@@ -12,9 +12,11 @@ def get_fact():
     response = requests.get("http://unkno.com")
 
     soup = BeautifulSoup(response.content, "html.parser")
-    facts = soup.find_all("div", id="content")
+    return soup.find("div", id="content").getText().strip()
 
-    return facts[0].getText()
+    #facts = soup.find_all("div", id="content")
+    #return facts[0].getText()
+
 
 @app.route('/')
 def home():
