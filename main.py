@@ -1,7 +1,7 @@
 import os
 
 import requests
-from flask import Flask, send_file, Response, redirect
+from flask import Flask, send_file, Response, redirect, url_for
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
@@ -9,10 +9,10 @@ app = Flask(__name__)
 
 def get_fact():
 
-    response = requests.get("http://unkno.com")
+    response = requests.get('http://unkno.com')
 
-    soup = BeautifulSoup(response.content, "html.parser")
-    return soup.find("div", id="content").getText().strip()
+    soup = BeautifulSoup(response.content, 'html.parser')
+    return soup.find('div', id='content').getText().strip()
 
     #facts = soup.find_all("div", id="content")
     #return facts[0].getText()
@@ -20,12 +20,11 @@ def get_fact():
 
 @app.route('/')
 def home():
-    url = 'https://hidden-journey-62459.herokuapp.com/piglatinize'
-    #header = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6)'}
+
+    url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
     fact = get_fact()
     payload = {'input_text': fact}
-    #response = requests.post(url, headers=header, data=payload, allow_redirects=False)
-    response = requests.post(url, data=payload, allow_redirects=False)
+    response = requests.post(url, data=payload)
     return redirect(response.url)
 
 
